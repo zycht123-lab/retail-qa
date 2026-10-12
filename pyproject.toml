@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "retail-qa-agent"
+version = "0.1.0"
+description = "Template-first retail analytics agent with reviewed long-tail SQL"
+requires-python = ">=3.11"
+dependencies = ["openai>=2,<3"]
+
+[tool.setuptools.packages.find]
+include = ["retail_qa*"]

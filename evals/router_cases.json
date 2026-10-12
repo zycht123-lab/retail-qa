@@ -1,0 +1,15 @@
+[
+  {"id": "ambiguous_01", "user": "alice", "question": "销售额怎么样？", "expected_action": "clarify", "why": "缺指标口径和时间"},
+  {"id": "ambiguous_02", "user": "alice", "question": "美国站昨天销售额是多少？", "expected_action": "clarify", "why": "销售额口径不明确"},
+  {"id": "ambiguous_03", "user": "alice", "question": "美国站净销售额是多少？", "expected_action": "clarify", "why": "缺时间范围"},
+  {"id": "ambiguous_04", "user": "alice", "question": "美国站最近净销售额变化如何？", "expected_action": "clarify", "why": "最近和比较基准不明确"},
+  {"id": "ambiguous_05", "user": "alice", "question": "美国站昨天订单数比前一天变化多少？", "expected_action": "clarify", "why": "订单数是否指已付款订单不明确"},
+  {"id": "ambiguous_06", "user": "alice", "question": "美国站上周销量是多少？", "expected_action": "clarify", "why": "销量口径不明确"},
+  {"id": "ambiguous_07", "user": "analyst", "question": "上周净销售额是多少？", "expected_action": "clarify", "why": "分析师可见两个站点，缺站点"},
+  {"id": "ambiguous_08", "user": "analyst", "question": "昨天访问次数是多少？", "expected_action": "clarify", "why": "分析师可见两个站点，缺站点"},
+  {"id": "ambiguous_09", "user": "bob", "question": "日本站上周销售额比前一周变化多少？", "expected_action": "clarify", "why": "销售额口径不明确"},
+  {"id": "ambiguous_10", "user": "bob", "question": "日本站访问次数下降了吗？", "expected_action": "clarify", "why": "缺时间和比较基准"},
+  {"id": "clear_01", "user": "alice", "question": "美国站上周净销售额比前一周变化多少？", "expected_action": "template", "why": "站点、指标和期间明确"},
+  {"id": "clear_02", "user": "bob", "question": "日本站昨天访问次数比前一天变化多少？", "expected_action": "template", "why": "站点、指标和期间明确"},
+  {"id": "clear_03", "user": "alice", "question": "美国站上周净销售额为什么比前一周下降？", "expected_action": "explore", "why": "需要基于查询结果逐步探索"}
+]

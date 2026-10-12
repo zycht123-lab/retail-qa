@@ -1,0 +1,12 @@
+# Reuses the three API keys already saved in the sibling agent-demo project.
+model_config = "../agent-demo/config.toml"
+database = "data/demo.db"
+business_timezone = "America/New_York"
+max_result_rows = 100
+
+# Separate model roles; aliases are defined in ../agent-demo/config.toml.
+# These defaults use three accounts you have already connected.
+[models]
+router = "qwen"
+sql = "glm"
+judge = "hy4"

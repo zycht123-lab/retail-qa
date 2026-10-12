@@ -1,0 +1,282 @@
+{
+  "model_alias": "qwen",
+  "total": 13,
+  "passed": 13,
+  "ambiguous_total": 10,
+  "ambiguous_passed": 10,
+  "results": [
+    {
+      "id": "ambiguous_01",
+      "user": "alice",
+      "question": "销售额怎么样？",
+      "expected_action": "clarify",
+      "why": "缺指标口径和时间",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": "US",
+        "period": null,
+        "message": "请明确您指的是“净销售额”、“已付款订单数”还是“访问次数”？"
+      },
+      "usage": {
+        "prompt_tokens": 302,
+        "completion_tokens": 62
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "ambiguous_02",
+      "user": "alice",
+      "question": "美国站昨天销售额是多少？",
+      "expected_action": "clarify",
+      "why": "销售额口径不明确",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": "US",
+        "period": "yesterday",
+        "message": "请问您指的是净销售额（已付款金额减已完成退款）、总销售额还是其他口径？"
+      },
+      "usage": {
+        "prompt_tokens": 305,
+        "completion_tokens": 63
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "ambiguous_03",
+      "user": "alice",
+      "question": "美国站净销售额是多少？",
+      "expected_action": "clarify",
+      "why": "缺时间范围",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": null,
+        "period": null,
+        "message": "请指定时间范围（例如：昨日、上周）以便查询净销售额。"
+      },
+      "usage": {
+        "prompt_tokens": 305,
+        "completion_tokens": 57
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "ambiguous_04",
+      "user": "alice",
+      "question": "美国站最近净销售额变化如何？",
+      "expected_action": "clarify",
+      "why": "最近和比较基准不明确",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": null,
+        "period": null,
+        "message": "请明确比较的时间周期（例如：与昨日相比、与上周同期相比）以及具体的时间范围。"
+      },
+      "usage": {
+        "prompt_tokens": 307,
+        "completion_tokens": 63
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "ambiguous_05",
+      "user": "alice",
+      "question": "美国站昨天订单数比前一天变化多少？",
+      "expected_action": "clarify",
+      "why": "订单数是否指已付款订单不明确",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": "US",
+        "period": "yesterday",
+        "message": "请问您指的是‘已付款订单数’还是其他口径的订单数？请明确具体指标。"
+      },
+      "usage": {
+        "prompt_tokens": 309,
+        "completion_tokens": 65
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "ambiguous_06",
+      "user": "alice",
+      "question": "美国站上周销量是多少？",
+      "expected_action": "clarify",
+      "why": "销量口径不明确",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": null,
+        "period": null,
+        "message": "请明确您指的是‘净销售额’、‘已付款订单数’还是‘访问次数’？'销量'一词可能指代不同指标。"
+      },
+      "usage": {
+        "prompt_tokens": 305,
+        "completion_tokens": 72
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "ambiguous_07",
+      "user": "analyst",
+      "question": "上周净销售额是多少？",
+      "expected_action": "clarify",
+      "why": "分析师可见两个站点，缺站点",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": null,
+        "period": null,
+        "message": "请指定具体的站点（US 或 JP）。"
+      },
+      "usage": {
+        "prompt_tokens": 306,
+        "completion_tokens": 51
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "ambiguous_08",
+      "user": "analyst",
+      "question": "昨天访问次数是多少？",
+      "expected_action": "clarify",
+      "why": "分析师可见两个站点，缺站点",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": null,
+        "period": null,
+        "message": "请指定要查询访问次数的站点（US 或 JP）。"
+      },
+      "usage": {
+        "prompt_tokens": 306,
+        "completion_tokens": 55
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "ambiguous_09",
+      "user": "bob",
+      "question": "日本站上周销售额比前一周变化多少？",
+      "expected_action": "clarify",
+      "why": "销售额口径不明确",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": "JP",
+        "period": "last_week",
+        "message": "请明确销售额口径：净销售额（已付款减退款）、已付款订单数还是访问次数？"
+      },
+      "usage": {
+        "prompt_tokens": 309,
+        "completion_tokens": 65
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "ambiguous_10",
+      "user": "bob",
+      "question": "日本站访问次数下降了吗？",
+      "expected_action": "clarify",
+      "why": "缺时间和比较基准",
+      "actual_action": "clarify",
+      "passed": true,
+      "decision": {
+        "action": "clarify",
+        "capability": null,
+        "site_id": null,
+        "period": null,
+        "message": "请指明比较的时间周期（例如：昨日对比前日，或上周对比前周）以及具体的下降指标口径。"
+      },
+      "usage": {
+        "prompt_tokens": 306,
+        "completion_tokens": 66
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "clear_01",
+      "user": "alice",
+      "question": "美国站上周净销售额比前一周变化多少？",
+      "expected_action": "template",
+      "why": "站点、指标和期间明确",
+      "actual_action": "template",
+      "passed": true,
+      "decision": {
+        "action": "template",
+        "capability": "net_sales_period_compare",
+        "site_id": "US",
+        "period": "last_week",
+        "message": null
+      },
+      "usage": {
+        "prompt_tokens": 310,
+        "completion_tokens": 46
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "clear_02",
+      "user": "bob",
+      "question": "日本站昨天访问次数比前一天变化多少？",
+      "expected_action": "template",
+      "why": "站点、指标和期间明确",
+      "actual_action": "template",
+      "passed": true,
+      "decision": {
+        "action": "template",
+        "capability": "visits_period_compare",
+        "site_id": "JP",
+        "period": "yesterday",
+        "message": null
+      },
+      "usage": {
+        "prompt_tokens": 309,
+        "completion_tokens": 46
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    },
+    {
+      "id": "clear_03",
+      "user": "alice",
+      "question": "美国站上周净销售额为什么比前一周下降？",
+      "expected_action": "explore",
+      "why": "需要基于查询结果逐步探索",
+      "actual_action": "explore",
+      "passed": true,
+      "decision": {
+        "action": "explore",
+        "capability": "net_sales_period_compare",
+        "site_id": "US",
+        "period": "last_week",
+        "message": null
+      },
+      "usage": {
+        "prompt_tokens": 310,
+        "completion_tokens": 47
+      },
+      "model": "qwen3.7-flash-2026-07-15"
+    }
+  ]
+}

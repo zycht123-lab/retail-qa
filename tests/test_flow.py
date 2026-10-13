@@ -139,25 +139,38 @@ class RetailFlowTests(unittest.TestCase):
             client = SimpleNamespace(chat=SimpleNamespace(completions=completions))
             return (client, {"id": model_id}), completions
 
-        router, router_calls = role("qwen-router", {"action": "template",
-            "capability": "net_sales_period_compare", "site_id": "US", "period": "last_week"})
+        router, router_calls = role("qwen-router",
+            {"action": "template", "capability": "net_sales_period_compare",
+             "site_id": "US", "period": "last_week"},
+            {"action": "explore", "capability": "net_sales_period_compare",
+             "site_id": "US", "period": "last_week"},
+            {"next_capability": "finish"})
         sql, sql_calls = role("glm-sql")
         judge, judge_calls = role("hy4-judge", {"pass": True, "issues": [],
                                                   "evidence": ["数字与查询结果一致"],
                                                   "suggested_next_step": None})
         agent = RetailQAAgent(self.db, "America/New_York", 100, *router,
                               role_models={"router": router, "sql": sql, "judge": judge})
-        answer = agent.ask("美国站上周净销售额比前一周变化多少？", "alice")
-        self.assertEqual(answer["status"], "answered")
-        self.assertEqual([x["model"] for x in answer["models_used"]], ["qwen-router", "hy4-judge"])
+        template_answer = agent.ask("美国站上周净销售额比前一周变化多少？", "alice")
+        self.assertEqual(template_answer["status"], "answered")
+        self.assertEqual([x["model"] for x in template_answer["models_used"]], ["qwen-router"])
         self.assertEqual(len(router_calls.calls), 1)
+        self.assertEqual(len(sql_calls.calls), 0)
+        self.assertEqual(len(judge_calls.calls), 0)
+
+        exploration_answer = agent.ask("美国站上周净销售额为什么下降？", "alice")
+        self.assertEqual(exploration_answer["status"], "answered")
+        self.assertEqual([x["model"] for x in exploration_answer["models_used"]],
+                         ["qwen-router", "qwen-router", "hy4-judge"])
+        self.assertEqual(len(router_calls.calls), 3)
         self.assertEqual(len(sql_calls.calls), 0)
         self.assertEqual(len(judge_calls.calls), 1)
         self.assertIn("net_sales_period_compare", judge_calls.calls[0]["messages"][1]["content"])
 
     def test_judge_failure_withholds_answer(self):
-        router = FakeCompletions({"action": "template", "capability": "visits_period_compare",
-                                  "site_id": "US", "period": "yesterday"})
+        router = FakeCompletions({"action": "explore", "capability": "visits_period_compare",
+                                  "site_id": "US", "period": "yesterday"},
+                                 {"next_capability": "finish"})
         judge = FakeCompletions({"pass": False, "issues": ["证据不足"],
                                  "evidence": [], "suggested_next_step": "人工检查"})
         def client(completions):
@@ -166,7 +179,7 @@ class RetailFlowTests(unittest.TestCase):
                  "sql": (client(router), {"id": "sql"}),
                  "judge": (client(judge), {"id": "judge"})}
         agent = RetailQAAgent(self.db, "America/New_York", 100, *roles["router"], role_models=roles)
-        answer = agent.ask("美国站昨天访问次数比前一天变化多少？", "alice")
+        answer = agent.ask("美国站昨天访问次数为什么下降？", "alice")
         self.assertEqual(answer["status"], "needs_review")
         self.assertNotIn("answer", answer)
         self.assertEqual(answer["judge"]["issues"], ["证据不足"])

@@ -140,7 +140,9 @@ class RetailQAAgent:
 
     def _finish(self, result: dict[str, Any], question: str = "") -> dict[str, Any]:
         evidence = result.pop("_evidence", None)
-        if result.get("status") == "answered" and "judge" in self.role_models:
+        if (result.get("status") == "answered"
+                and result.get("path") == "bounded_exploration"
+                and "judge" in self.role_models):
             verdict = self._json_response(
                 JUDGE_PROMPT,
                 json.dumps({"question": question, "approved_metrics": METRICS,
